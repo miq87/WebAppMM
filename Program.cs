@@ -4,16 +4,10 @@ using WebAppMM.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
 
 builder.Services.AddDbContext<ContactContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("WebApiDb")));
-
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-//builder.Services.AddEndpointsApiExplorer();
-//builder.Services.AddSwaggerGen();
+    options.UseSqlServer(builder.Configuration.GetConnectionString("WebAppMM")));
 
 builder.Services.AddMvc(options => options.EnableEndpointRouting = false);
 
@@ -31,12 +25,9 @@ builder.Services.AddAuthentication(options =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
-    //app.UseSwagger();
-    //app.UseSwaggerUI();
 }
 else
 {
@@ -48,15 +39,6 @@ app.UseStaticFiles();
 
 // 2. Enable authentication middleware
 app.UseAuthentication();
-
-
-//app.UseMvc(routes =>
-//{
-//    routes.MapRoute(
-//      name: "default",
-//      template: "{controller=Home}/{action=Index}/{id?}");
-//});
-
 
 app.UseCors(x => x.AllowAnyMethod()
                   .AllowAnyHeader()
