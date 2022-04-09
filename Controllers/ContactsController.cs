@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -46,6 +47,7 @@ namespace WebAppMM.Controllers
         // PUT: api/Contacts/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize("edit:contacts")]
         public async Task<IActionResult> PutContact(int id, Contact contact)
         {
             if (id != contact.Id)
@@ -77,6 +79,7 @@ namespace WebAppMM.Controllers
         // POST: api/Contacts
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize("write:contacts")]
         public async Task<ActionResult<Contact>> PostContact(Contact contact)
         {
             _context.Contacts.Add(contact);
@@ -87,6 +90,7 @@ namespace WebAppMM.Controllers
 
         // DELETE: api/Contacts/5
         [HttpDelete("{id}")]
+        [Authorize("delete:contacts")]
         public async Task<IActionResult> DeleteContact(int id)
         {
             var contact = await _context.Contacts.FindAsync(id);
